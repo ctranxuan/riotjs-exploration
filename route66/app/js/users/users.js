@@ -1,22 +1,29 @@
 'use strict'
 
-var userService = new UserService();
+var userService = new UserAsyncService();
 
 routes.users = function(id, item) {
+  mount('loading');
+  
   if (id) {
     if (item == 'profile') {
       // don't pass id as key: it's already reserved by the id of <div id="content">
-      var userProfile = userService.fetchUserNameAndProfile(id);
-      mount('user-profile', { user: userProfile });
+      userService.fetchUserNameAndProfile(id)
+        .then(function(userProfile) {
+            mount('user-profile', { user: userProfile });
+         });
 
     } else if (item == 'hobbies') {
-      var userHobbies = userService.fetchUserNameAndHobbies(id);
-      mount('user-hobbies', { user: userHobbies });
+      userService.fetchUserNameAndHobbies(id)
+        .then(function(userHobbies) {
+            mount('user-hobbies', { user: userHobbies });
+        });
 
     }
   } else {
-      var users = userService.fetchUsers();
-      mount('users-page', {users: users});
-
+      userService.fetchUsers()
+        .then(function(users) {
+          mount('users-page', {users: users});
+        });
   }
 }
