@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hello World</title>
+
+  <link rel="stylesheet" type="text/css" href="app/css/stockmarket-barchart.css" />
+</head>
+  <body>
+    <!-- mount point -->
+    <stockmarket-table></stockmarket-table>
+    <stockmarket-barchart></stockmarket-barchart>
+
+    <!-- include riot.js and the compiler -->
+    <script src="./node_modules/riot/riot.min.js"></script>
+    <script src="./node_modules/d3/d3.min.js"></script>
+    <script src="./dist/js/stockmarket-table.js"></script>
+    <script src="./dist/js/stockmarket-barchart.js"></script>
+
+    <!-- mount normally -->
+    <script>
+    var xmlhttp = new XMLHttpRequest();
+    var url = "http://cors.io/?u=http://demo-streamdataio.rhcloud.com/stockmarket/prices";
+
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            var stocks = JSON.parse(xmlhttp.responseText);
+            loadStockMarket(stocks);
+        }
+    }
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+
+    function loadStockMarket(stocks) {
+      console.log(stocks);
+      riot.mount('stockmarket-table', { title: 'Stocks', stocks: stocks });
+      riot.mount('stockmarket-barchart', { title: 'Graph', stocks: stocks});
+    }
+
+    </script>
+  </body>
+</html>
