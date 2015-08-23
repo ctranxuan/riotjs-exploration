@@ -5,10 +5,12 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf dist/",
-    "watch": "riot --type es6 -w app dist",
-    "compile": "riot --type es6 app dist",
-    "browsersync": "browser-sync start --server --files 'dist/*.js, app/*.html, index.html, app/css/*'",
-    "serve": "parallelshell 'npm run watch' 'npm run browsersync'",
+    "babel:watch": "babel app --watch --out-dir dist --source-maps",
+    "babel:compile": "babel app --out-dir dist --source-maps",
+    "riot:watch": "riot --type es6 -w app dist",
+    "riot:compile": "riot --type es6 app dist",
+    "browsersync": "browser-sync start --server --files 'dist/**/*.js, app/*.html, index.html, app/css/*'",
+    "serve": "parallelshell 'npm run babel:watch' 'npm run riot:watch' 'npm run browsersync'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

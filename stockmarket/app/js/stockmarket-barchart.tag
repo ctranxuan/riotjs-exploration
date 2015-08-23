@@ -3,16 +3,42 @@
   <svg class="chart" id="{chartId}"></svg>
 
   <script type='text/es6'>
+  var self = this;
   this.chartId = opts.chart_id || 'chart-1';
+  this.chartCreated = false;
 
-  this.on('mount', function() {
-    var data = opts.stocks.map(s => {
+  this.opts.bus.on('newStocksEvent', function(stocks) {
+    var data = stocks.map(s => {
       return { 'title': s.title, 'price': s.price };
     });
 
-    createChart(data, this.chartId, opts.height, opts.width);
+    if (!this.chartCreated) {
+      this.chartCreated = true;
+      createChart(data, this.chartId, opts.height, opts.width);
+    } else {
+      updateChart(data, this.chartId, opts.height);
+    }
+
+    self.update();
   });
 
+  function updateChart(data, id = 'chart-1', aHeight = 500) {
+    // https://strongriley.github.io/d3/tutorial/bar-2.html
+    // http://empire5.com/development/d3-js-dynamic-bar-graphing-with-transitions-and-json/
+    var margin = {top: 20, right: 30, bottom: 30, left: 40};
+    var height = aHeight - margin.top - margin.bottom;
+    var y = d3.scale.linear()
+        .range([height, 0]);
+    y.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+    var chart = d3.select("#" + id);
+    chart.selectAll("rect")
+        .data(data)
+        .transition()
+          .duration(1000)
+          .attr("y", function(d) { return y(d.price); })
+          .attr("height", function(d) { return height - y(d.price); });
+  }
 
   function createChart(data, id = 'chart-1', aHeight = 500, aWidth = 960) {
     var margin = {top: 20, right: 30, bottom: 30, left: 40},
@@ -67,5 +93,6 @@
         .attr("height", function(d) { return height - y(d.price); })
         .attr("width", x.rangeBand());
   }
+
   </script>
 </stockmarket-barchart>

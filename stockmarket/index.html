@@ -11,6 +11,7 @@
 </head>
   <body>
     <!-- mount point -->
+    <stockmarket-button></stockmarket-button>
     <stockmarket-table></stockmarket-table>
     <stockmarket-barchart height="500" width="960"></stockmarket-barchart>
     <!-- <stockmarket-barchart height=300 width=760 chart_id="chart-2"></stockmarket-barchart> -->
@@ -18,27 +19,30 @@
     <!-- include riot.js and the compiler -->
     <script src="./node_modules/riot/riot.min.js"></script>
     <script src="./node_modules/d3/d3.min.js"></script>
+    <script src="./dist/js/stockmarket-service.js"></script>
+    <script src="./dist/js/stockmarket-button.js"></script>
     <script src="./dist/js/stockmarket-table.js"></script>
     <script src="./dist/js/stockmarket-barchart.js"></script>
 
     <!-- mount normally -->
     <script>
-    var xmlhttp = new XMLHttpRequest();
+    // FIXME clean the code (see https://muut.com/riotjs/guide/#example-riot-application-de)
+    // something like StockMarketService.getStocks() and pass StockMarketService as a service to
+    // the stockmarket-button???
     var url = "http://cors.io/?u=http://demo-streamdataio.rhcloud.com/stockmarket/prices";
+    var bus = riot.observable();
+    var areMounted = false;
+    riot.mount('stockmarket-button', { title: 'Load Stocks', url: url, bus: bus });
 
-    xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            var stocks = JSON.parse(xmlhttp.responseText);
-            loadStockMarket(stocks);
+    bus.on('newStocksEvent', function() {
+        if (!areMounted) {
+          riot.mount('stockmarket-table', { title: 'Stocks', bus: bus });
+          riot.mount('stockmarket-barchart', { title: 'Graph', bus: bus });
+          areMounted = true;
         }
-    }
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
+    })
 
-    function loadStockMarket(stocks) {
-      riot.mount('stockmarket-table', { title: 'Stocks', stocks: stocks });
-      riot.mount('stockmarket-barchart', { title: 'Graph', stocks: stocks});
-    }
+
     </script>
   </body>
 </html>

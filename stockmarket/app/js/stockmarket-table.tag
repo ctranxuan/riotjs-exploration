@@ -9,7 +9,7 @@
     </thead>
 
     <tbody>
-      <tr each={ opts.stocks }>
+      <tr each={ stocks }>
         <td>{title}</td>
         <td>{price}</td>
       </tr>
@@ -17,6 +17,10 @@
   </table>
 
   <script type="text/es6">
-
+    var self = this;
+    this.opts.bus.on('newStocksEvent', function(stocks) {
+      self.stocks = stocks;
+      self.update();
+    });
   </script>
 </stockmarket-table>
