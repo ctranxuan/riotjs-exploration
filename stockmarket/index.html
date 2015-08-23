@@ -4,12 +4,16 @@
   <meta charset="utf-8">
   <title>Hello World</title>
 
+  <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+
+  <link rel="stylesheet" type="text/css" href="app/css/main.css" />
   <link rel="stylesheet" type="text/css" href="app/css/stockmarket-barchart.css" />
 </head>
   <body>
     <!-- mount point -->
     <stockmarket-table></stockmarket-table>
-    <stockmarket-barchart></stockmarket-barchart>
+    <stockmarket-barchart height="500" width="960"></stockmarket-barchart>
+    <!-- <stockmarket-barchart height=300 width=760 chart_id="chart-2"></stockmarket-barchart> -->
 
     <!-- include riot.js and the compiler -->
     <script src="./node_modules/riot/riot.min.js"></script>
@@ -32,11 +36,9 @@
     xmlhttp.send();
 
     function loadStockMarket(stocks) {
-      console.log(stocks);
       riot.mount('stockmarket-table', { title: 'Stocks', stocks: stocks });
       riot.mount('stockmarket-barchart', { title: 'Graph', stocks: stocks});
     }
-
     </script>
   </body>
 </html>

@@ -1,39 +1,77 @@
 <stockmarket-barchart>
   <h3>{opts.title}</h3>
-  <svg class="chart"></svg>
+  <svg class="chart" id="{chartId}"></svg>
 
   <script type='text/es6'>
+  this.chartId = opts.chart_id || 'chart-1';
+
   this.on('mount', function() {
-    var data = [4, 8, 15, 16, 23, 42];
-    createChart(data);
+    var data = opts.stocks.map(s => {
+      return { 'title': s.title, 'price': s.price };
+    });
+
+    createChart(data, this.chartId, opts.height, opts.width);
   });
 
-  function createChart(data) {
-    var width = 420,
-        barHeight = 20;
+  function createChart(data, id = 'chart-1', aHeight = 500, aWidth = 960) {
 
-    var x = d3.scale.linear()
-        .domain([0, d3.max(data)])
-        .range([0, width]);
+    var margin = {top: 20, right: 30, bottom: 30, left: 40},
+    width = aWidth - margin.left - margin.right,
+    height = aHeight - margin.top - margin.bottom;
 
-    var chart = d3.select(".chart")
-        .attr("width", width)
-        .attr("height", barHeight * data.length);
+    var x = d3.scale.ordinal()
+        .rangeRoundBands([0, width], .1);
 
-    var bar = chart.selectAll("g")
+    var y = d3.scale.linear()
+        .range([height, 0]);
+
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left");
+
+    var chart = d3.select("#" + id)
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    x.domain(data.map(function(d) { return d.title; }));
+    y.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+    chart.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis)
+        ;
+
+    chart.append("g")
+        .attr("class", "y axis")
+        .call(yAxis)
+        .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", ".71em")
+          .style("text-anchor", "end")
+          .text("Price");
+
+    chart.selectAll(".bar")
         .data(data)
-      .enter().append("g")
-        .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+      .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d) { return x(d.title); })
+        .attr("y", function(d) { return y(d.price); })
+        .attr("height", function(d) { return height - y(d.price); })
+        .attr("width", x.rangeBand());
 
-    bar.append("rect")
-        .attr("width", x)
-        .attr("height", barHeight - 1);
+    function type(d) {
+      d.price = +d.price; // coerce to number
+      return d;
+    }
 
-    bar.append("text")
-        .attr("x", function(d) { return x(d) - 3; })
-        .attr("y", barHeight / 2)
-        .attr("dy", ".35em")
-        .text(function(d) { return d; });
 
   }
   </script>

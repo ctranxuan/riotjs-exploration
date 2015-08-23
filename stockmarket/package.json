@@ -18,6 +18,7 @@
   "author": "ctranxuan (streamdata.io)",
   "license": "Apache2 License (http://www.apache.org/licenses/LICENSE-2.0)",
   "dependencies": {
+    "bootstrap": "^3.3.5",
     "d3": "^3.5.6",
     "riot": "^2.2.3"
   },
