@@ -1,4 +1,4 @@
-<user>
+<user-card>
   <div class="demo-card-square mdl-card mdl-shadow--2dp">
     <div class="{ opts.user.gender === 'male' ? 'mdl-card__title-male': 'mdl-card__title-female' } mdl-card__title mdl-card--expand">
       <h2 class="mdl-card__title-text">{opts.user.name}</h2>
@@ -26,4 +26,4 @@
     }
 
   </script>
-</user>
+</user-card>

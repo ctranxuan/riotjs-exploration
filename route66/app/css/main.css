@@ -7,3 +7,7 @@ li {
   font-size: x-large;
   padding: 5px 0px 5px 0px
 }
+
+.mdl-navigation__link {
+  font-size: x-large;
+}

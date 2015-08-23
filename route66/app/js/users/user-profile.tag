@@ -1,10 +1,9 @@
-<user-hobbies>
-  <h2>Hobbies of { user.name } </h2>
-
+<user-profile>
+  <h1>Profile of { opts.user.name }</h1>
   <ul>
-    <li each={ hobby in user.hobbies } class={ completed: done }>
-      { hobby }
-    </li>
+    <li>age: { opts.user.profile.age }</li>
+    <li>job: { opts.user.profile.job }</li>
+    <li>country: { opts.user.profile.country }</li>
   </ul>
 
   <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent"
@@ -13,10 +12,8 @@
   </button>
 
   <script type="text/es6">
-    this.user = opts.userService.fetchUserNameAndHobbies(opts.userId);
-
     this.goBack = (e) => {
       riot.route('users');
     }
   </script>
-</user-hobbies>
+</user-profile>
