@@ -1,0 +1,26 @@
+{
+  "name": "hello-world4",
+  "version": "1.0.0",
+  "description": "riot.js Hello Word sample with npm and es6",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf dist/",
+    "watch": "riot --type es6 -w app dist",
+    "compile": "riot --type es6 app dist",
+    "serve": "npm run watch & browser-sync start --server --files 'dist/*.js, app/*.html' --startPath app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "riot.js",
+    "hello-world"
+  ],
+  "author": "ctranxuan (streamdata.io)",
+  "license": "Apache2 License (http://www.apache.org/licenses/LICENSE-2.0)",
+  "dependencies": {
+    "riot": "^2.2.3"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.8.2",
+    "rimraf": "^2.4.2"
+  }
+}

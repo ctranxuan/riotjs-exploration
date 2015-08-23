@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" ng-app>
+<head>
+  <meta charset="utf-8">
+  <title>Hello World</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+  <body>
+    <!-- mount point -->
+    <hello-world></hello-world>
+
+    <!-- include riot.js and the compiler -->
+    <script src="../node_modules/riot/riot.min.js"></script>
+
+    <script src="../dist/hello-world.js"></script>
+
+    <!-- mount normally -->
+    <script>
+    riot.mount('*', { title: 'Say hello!'});
+    </script>
+  </body>
+</html>
