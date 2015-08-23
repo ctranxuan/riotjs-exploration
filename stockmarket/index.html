@@ -26,23 +26,20 @@
 
     <!-- mount normally -->
     <script>
-    // FIXME clean the code (see https://muut.com/riotjs/guide/#example-riot-application-de)
-    // something like StockMarketService.getStocks() and pass StockMarketService as a service to
-    // the stockmarket-button???
     var url = "http://cors.io/?u=http://demo-streamdataio.rhcloud.com/stockmarket/prices";
     var bus = riot.observable();
+    var stockMarketService = new StockMarketService(bus);
     var areMounted = false;
-    riot.mount('stockmarket-button', { title: 'Load Stocks', url: url, bus: bus });
+
+    riot.mount('stockmarket-button', { title: 'Load Stocks', stockMarketService: stockMarketService });
 
     bus.on('newStocksEvent', function() {
-        if (!areMounted) {
-          riot.mount('stockmarket-table', { title: 'Stocks', bus: bus });
-          riot.mount('stockmarket-barchart', { title: 'Graph', bus: bus });
-          areMounted = true;
-        }
+      if (!areMounted) {
+        riot.mount('stockmarket-table', { title: 'Stocks', bus: bus });
+        riot.mount('stockmarket-barchart', { title: 'Graph', bus: bus });
+        areMounted = true;
+      }
     })
-
-
     </script>
   </body>
 </html>

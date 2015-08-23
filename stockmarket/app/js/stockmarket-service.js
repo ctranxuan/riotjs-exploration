@@ -1,26 +1,29 @@
+'use strict';
+
 class StockMarketService {
-
-  constructor() {
+  constructor(bus) {
+    this.bus = bus;
+    this.url = "http://cors.io/?u=http://demo-streamdataio.rhcloud.com/stockmarket/prices";
   }
 
-  static getJson(url) {
-    return new Promise(function(resolve, reject) {
-      var xmlhttp = new XMLHttpRequest();
+  fetchJson() {
+    var self = this;
+    var xmlhttp = new XMLHttpRequest();
 
-      xmlhttp.onload = function() {
-        var status = xmlhttp.status;
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            resolve(JSON.parse(xmlhttp.responseText));
+    xmlhttp.onload = function() {
+      var status = xmlhttp.status;
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        var stocks = JSON.parse(xmlhttp.responseText);
+        self.bus.trigger('newStocksEvent', stocks);
 
-        } else {
-          reject(status);
+      } else {
+        console.error(xmlhttp.status);
+        self.bus.trigger('errorStocksEvent', xmlhttp.status);
 
-        }
       }
+    }
 
-      xmlhttp.open("GET", url, true);
-      xmlhttp.send();
-    });
+    xmlhttp.open("GET", self.url, true);
+    xmlhttp.send();
   }
-  
 }
