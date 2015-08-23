@@ -1,0 +1,15 @@
+.demo-card-square.mdl-card {
+  width: 320px;
+  height: 320px;
+}
+.demo-card-square > .mdl-card__title-male {
+  color: #fff;
+  background:
+    bottom right 15% no-repeat #0288D1;
+}
+
+.demo-card-square > .mdl-card__title-female {
+  color: #fff;
+  background:
+    bottom right 15% no-repeat #FF4081;
+}
