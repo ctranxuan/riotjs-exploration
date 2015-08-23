@@ -6,6 +6,7 @@
   "scripts": {
     "watch": "riot -w src dist",
     "compile": "riot src dist",
+    "serve": "http-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -16,5 +17,8 @@
   "license": "Apache2 License (http://www.apache.org/licenses/LICENSE-2.0)",
   "dependencies": {
     "riot": "^2.2.2"
+  },
+  "devDependencies": {
+    "http-server": "^0.8.0"
   }
 }
