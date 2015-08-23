@@ -1,2 +1,3 @@
-# riotjs-exploration
+# riotjs-explore
+
 This project aims to explore [riot.js](https://muut.com/riotjs/)...

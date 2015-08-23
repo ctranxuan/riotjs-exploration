@@ -1,0 +1,20 @@
+{
+  "name": "hello-world2",
+  "version": "1.0.0",
+  "description": "riot.js Hello Word sample with npm",
+  "main": "index.js",
+  "scripts": {
+    "watch": "riot -w src dist",
+    "compile": "riot src dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "riot.js",
+    "hello-world"
+  ],
+  "author": "ctranxuan (streamdata.io)",
+  "license": "Apache2 License (http://www.apache.org/licenses/LICENSE-2.0)",
+  "dependencies": {
+    "riot": "^2.2.2"
+  }
+}
