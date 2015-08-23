@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" ng-app>
+<head>
+  <meta charset="utf-8">
+  <title>Hello World</title>
+</head>
+  <body>
+    <!-- mount point -->
+    <hello-world></hello-world>
+
+    <!-- include riot.js and the compiler -->
+    <script src="../node_modules/riot/riot.min.js"></script>
+
+    <script src="../dist/hello-world.js"></script>
+    <script src="../dist/another-tag.js"></script>
+
+    <!-- mount normally -->
+    <script>
+    riot.mount('*')
+    </script>
+  </body>
+</html>
