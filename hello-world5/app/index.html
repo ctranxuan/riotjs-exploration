@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hello World</title>
+
+</head>
+  <body>
+    <!-- mount point -->
+    <div id="hello"></div>
+    <div id="bonjour"></div>
+
+    <!-- include riot.js and the compiler -->
+    <script src="../node_modules/riot/riot.min.js"></script>
+    <script src="../dist/hello-world.js"></script>
+
+    <!-- mount normally -->
+    <script>
+    var sayHello = function(name) {
+      return 'Hello ' + name + '!!!';
+    };
+
+    var sayBonjour = function(name) {
+      return 'Bonjour ' + name + '!!!';
+    };
+
+    riot.mount('div#hello', 'hello-world', { title: 'Hello', say: sayHello });
+    riot.mount('div#bonjour', 'hello-world', { title: 'Bonjour', say: sayBonjour });
+    </script>
+  </body>
+</html>
