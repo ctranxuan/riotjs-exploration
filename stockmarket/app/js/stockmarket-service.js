@@ -1,29 +1,39 @@
 'use strict';
 
 class StockMarketService {
-  constructor(bus) {
+  constructor(appToken, bus) {
+    var self = this;
+    var url = "http://demo-streamdataio.rhcloud.com/stockmarket/prices";
+
     this.bus = bus;
-    this.url = "http://cors.io/?u=http://demo-streamdataio.rhcloud.com/stockmarket/prices";
+    this.streamdata =
+      streamdataio.createEventSource(url, appToken, [], null);
+
+    this.streamdata.onOpen(function() {
+      self.data = [];
+      self.bus.trigger('connectionOpenStocksEvent');
+
+    }).onData(function(data) {
+      self.data = data;
+      self.bus.trigger('newStocksEvent', data);
+
+    }).onPatch(function(patches) {
+      jsonpatch.apply(self.data, patches);
+      self.bus.trigger('newStocksEvent', self.data);
+
+    }).onError(function(error) {
+      console.error(error);
+      self.bus.trigger('errorStocksEvent', error);
+      self.streamdata.close();
+
+    });
   }
 
   fetchJson() {
-    var self = this;
-    var xmlhttp = new XMLHttpRequest();
+    this.streamdata.open();
+  }
 
-    xmlhttp.onload = function() {
-      var status = xmlhttp.status;
-      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        var stocks = JSON.parse(xmlhttp.responseText);
-        self.bus.trigger('newStocksEvent', stocks);
-
-      } else {
-        console.error(xmlhttp.status);
-        self.bus.trigger('errorStocksEvent', xmlhttp.status);
-
-      }
-    }
-
-    xmlhttp.open("GET", self.url, true);
-    xmlhttp.send();
+  stopFetchJson() {
+    this.streamdata.close();
   }
 }
