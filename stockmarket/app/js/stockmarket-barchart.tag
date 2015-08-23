@@ -13,8 +13,8 @@
     createChart(data, this.chartId, opts.height, opts.width);
   });
 
-  function createChart(data, id = 'chart-1', aHeight = 500, aWidth = 960) {
 
+  function createChart(data, id = 'chart-1', aHeight = 500, aWidth = 960) {
     var margin = {top: 20, right: 30, bottom: 30, left: 40},
     width = aWidth - margin.left - margin.right,
     height = aHeight - margin.top - margin.bottom;
@@ -66,13 +66,6 @@
         .attr("y", function(d) { return y(d.price); })
         .attr("height", function(d) { return height - y(d.price); })
         .attr("width", x.rangeBand());
-
-    function type(d) {
-      d.price = +d.price; // coerce to number
-      return d;
-    }
-
-
   }
   </script>
 </stockmarket-barchart>
