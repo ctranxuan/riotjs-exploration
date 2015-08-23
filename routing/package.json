@@ -1,0 +1,32 @@
+{
+  "name": "routing",
+  "version": "1.0.0",
+  "description": "riot.js routing sample with npm and es6",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf dist/",
+    "babel:watch": "babel app --watch --out-dir dist --source-maps",
+    "babel:compile": "babel app --out-dir dist --source-maps",
+    "riot:watch": "riot --type es6 -w app dist",
+    "riot:compile": "riot --type es6 app dist",
+    "browsersync": "browser-sync start --server --files 'dist/**/*.js, app/*.html, index.html, app/css/*'",
+    "serve": "parallelshell 'npm run babel:watch' 'npm run riot:watch' 'npm run browsersync'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "riot.js",
+    "routing"
+  ],
+  "author": "ctranxuan (streamdata.io)",
+  "license": "Apache2 License (http://www.apache.org/licenses/LICENSE-2.0)",
+  "dependencies": {
+    "bootstrap": "^3.3.5",
+    "riot": "^2.2.4"
+  },
+  "devDependencies": {
+    "babel": "^5.8.21",
+    "browser-sync": "^2.8.2",
+    "parallelshell": "^2.0.0",
+    "rimraf": "^2.4.2"
+  }
+}
